@@ -8,10 +8,10 @@ import { ProductModule } from './modules/product.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
+      host: 'db',
       port: 5432,
-      username: 'root',
-      password: 'root',
+      username: 'user',
+      password: 'userpass',
       database: 'nest_store',
       entities: [Product],
       synchronize: true,

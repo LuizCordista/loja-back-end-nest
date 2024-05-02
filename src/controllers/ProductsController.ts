@@ -3,16 +3,18 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
+  HttpStatus,
   Param,
   Post,
   Put,
 } from '@nestjs/common';
-import { ProductsServices } from '../services/ProductsServices';
+import { ProductsService } from '../services/products.service';
 import { Product } from '../models/product.entity';
 
 @Controller('products')
 export class ProductsController {
-  constructor(private readonly productsServices: ProductsServices) {}
+  constructor(private readonly productsServices: ProductsService) {}
 
   @Get()
   findAll(): Promise<Product[]> {
@@ -39,6 +41,10 @@ export class ProductsController {
     @Param('id') id: string,
     @Body() productData: Partial<Product>,
   ): Promise<Product> {
-    return this.productsServices.update(id, productData);
+    try {
+      return this.productsServices.update(id, productData);
+    } catch {
+      throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
+    }
   }
 }
